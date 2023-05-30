@@ -69,6 +69,16 @@ body {
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s
 }
+#calendar-popup .hidden {
+  visibility: hidden;
+  -webkit-animation: fadeOut 1s;
+  animation: fadeOut 1s
+}
+#calendar-popup #event-form .hidden {
+  visibility: hidden;
+  -webkit-animation: fadeOut 1s;
+  animation: fadeOut 1s
+}
 
 #calendar-popup #event-form .show {
   visibility: visible;
@@ -93,6 +103,25 @@ body {
 
   to {
     opacity: 1;
+  }
+}
+@-webkit-keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 
