@@ -1,14 +1,191 @@
+:root {
+  --color-0: rgb(101, 124, 140);
+  --color-1: #bff3fb;
+  --color-2: #2CAFC2;
+}
 
-html, body {
-    background-color: rgba(0,0,0,0.87);
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
+html,
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+#ec {
+  padding: 20px;
+  padding-right: 50px;
+  color: rgb(101, 124, 140);
+  font-weight: 600;
+}
+
+#ec .ec-today {
+  background-color: #e1f4f7;
+  color: rgb(101, 124, 140);
+  font-weight: 600;
+}
+
+.ec-button {
+  color: #ddd;
+}
+
+#calendar-popup {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  z-index: 10000;
+  position: fixed;
+  cursor: pointer;
+  border: solid rgb(197, 209, 220) 2px;
+  color: rgb(101, 124, 140);
+  background: #FFF;
+  align-items: center;
+}
+
+#calendar-popup #event-form {
+  width: 250px;
+  background-color: #bff3fb;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+  bottom: 125%;
+}
+
+#calendar-popup #event-form::after {
+
+  position: absolute;
+  top: 100%;
+  left: 70%;
+  margin: auto;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+#calendar-popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+#calendar-popup #event-form .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
 
-  #ec {
-    color: #ddd;
-    max-width: 1100px;
-    margin: 40px auto;
+  to {
+    opacity: 1;
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+.calander_popip_title {
+  border-bottom: 2px solid #ffffff;
+  text-align: center;
+  margin: 1em 1em;
+  padding: .5em;
+  font-size: 20px;
+  background: #2CAFC2;
+}
+
+#calendar-popup * {
+  display: block;
+
+}
+
+
+#calendar-popup header {
+  text-align: center;
+  font-size: 1.5em;
+  line-height: 1.9em;
+  margin-bottom: 0.5em;
+
+}
+
+#calendar-popup label,
+#calendar-popup input,
+#calendar-popup textarea {
+  font-size: 0.9em;
+  font-weight: normal;
+
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  color: #2CAFC2;
+
+}
+
+#calendar-popup input {
+  background-color: #eee;
+  border: none;
+
+  &.is-active {
+    cursor: default;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+}
+
+#calendar-popup .submit_btn {
+  width: 86%;
+  background-color: #2CAFC2;
+  color: #eee;
+}
+
+
+#calendar-popup time {
+  font-style: italic;
+  line-height: 1em;
+  margin-top: 0;
+}
+
+#calendar-popup form,
+#calendar-popup div#event {
+  margin: 0.75em 0 0.75em 0;
+
+}
+
+#calendar-popup li {
+  margin-bottom: 0.40em;
+  margin-right: 30px;
+
+}
+
+#calendar-popup li {
+  background: #BFF3FB;
+}
+
+#calendar-popup li input {
+  background: #fff;
+}
+
+#calendar-popup li.location,
+#calendar-popup li.details {
+  font-size: 0.85em;
+  color: #333;
+}
