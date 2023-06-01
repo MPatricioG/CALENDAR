@@ -4,9 +4,10 @@ var eventForm = document.getElementById('event-form');
 var input = document.querySelector("#submit");
 today.setDate(today.getDate() - today.getDay());
 today = today.getFullYear() + "-" + _pad(today.getMonth() + 1) + "-" + _pad(today.getDate());
-var newEventCustom={};
+var newEventCustom = {};
 let ec = new EventCalendar(document.getElementById('ec'), {
     view: 'timeGridWeek',
+    firstDay: 1,
     height: '700px',
     headerToolbar: {
         start: 'prev,next today',
@@ -14,27 +15,17 @@ let ec = new EventCalendar(document.getElementById('ec'), {
         end: 'timeGridWeek,timeGridDay,dayGridMonth '
     },
     editable: true,
+    unselectAuto:false,
     locale: "es-ES",
     scrollTime: '8:00:00',
     events: createEvents(),
-    dateClick: function (dateClickInfo) {
-        //Evento Popup
-        //Le doy la posición al popUp de donde se hizo click
-        var topPosition = dateClickInfo.jsEvent.clientY;
-        var leftPosition = dateClickInfo.jsEvent.clientX;
-        eventForm.setAttribute("style", "top:" + topPosition + "px; left:" + (leftPosition - 150) + "px;");
-        //Pendiente de que el popUp no se salga del contenedor
-        //Aparece el PopUp
-        eventForm.classList.toggle("show");
-        popup.classList.toggle("show");
-        //Le doy la fecha de inicio en donde se hizo click
-        var dateTimeClickStart = dateClickInfo.dateStr;
-        console.log(document.getElementById("event-start"));
-        document.getElementById("event-start").setAttribute('value', dateTimeClickStart);
-        //Añado 30 min al evento por defecto y prevengo que se haga click en una fecha pasada
-        var dateTimeClickEnd=moment(dateTimeClickStart).add(30, 'm').format("YYYY-MM-DD[T]HH:mm");
-        document.getElementById("event-end").setAttribute('min', dateTimeClickEnd);
-        document.getElementById("event-end").setAttribute('value', dateTimeClickEnd);
+    selectable: true,
+    select: function (info) { 
+        popUpShow(info);
+    },
+    dateClick: function (info) {
+        popUpShow(info);
+        ec.selectable =true;
     },
     views: {
         timeGridWeek: { pointer: true },
@@ -49,8 +40,8 @@ input.addEventListener('click', function () {
     var eventForm = document.getElementById('event-form');
     var eventStart = document.querySelector("#event-start").value;
     var eventEnd = document.querySelector("#event-end").value;
-    if (eventEnd == ""){
-        eventEnd = moment(eventStart).add(30, 'm').format("YYYY-MM-DD[T]HH:mm"); 
+    if (eventEnd == "") {
+        eventEnd = moment(eventStart).add(30, 'm').format("YYYY-MM-DD[T]HH:mm");
     };
     var eventTitle = document.querySelector("#event-title").value;
 
@@ -69,6 +60,29 @@ input.addEventListener('click', function () {
         return ec.addEvent(newEventCustom);
     }
 });
+function popUpShow(dateClickInfo) {
+    ec.selectable =false;
+    //Le doy la posición al popUp de donde se hizo click
+    var topPosition = dateClickInfo.jsEvent.clientY;
+    var leftPosition = dateClickInfo.jsEvent.clientX;
+    eventForm.setAttribute("style", "top:" + topPosition + "px; left:" + (leftPosition - 150) + "px;");
+    //Pendiente de que el popUp no se salga del contenedor
+    //Aparece el PopUp
+    eventForm.classList.toggle("show");
+    popup.classList.toggle("show");
+    console.log(dateClickInfo.hasOwnProperty('startStr'));
+    //Le doy la fecha de inicio en donde se hizo click
+    if (dateClickInfo.hasOwnProperty('startStr') == true) {
+        document.getElementById("event-start").setAttribute('value', dateClickInfo.startStr);
+        document.getElementById("event-end").setAttribute('value', dateClickInfo.endStr);
+    } else {
+        document.getElementById("event-start").setAttribute('value', dateClickInfo.dateStr);
+        //Añado 30 min al evento por defecto y prevengo que se haga click en una fecha pasada
+        var dateTimeClickEnd = moment(dateClickInfo.dateStr).add(30, 'm').format("YYYY-MM-DD[T]HH:mm");
+        document.getElementById("event-end").setAttribute('min', dateTimeClickEnd);
+        document.getElementById("event-end").setAttribute('value', dateTimeClickEnd);
+    }
+}
 //Función para crear eventos al iniciar el calendario.
 function createEvents() {
     let days = [];
